@@ -6,6 +6,37 @@ Production-like DevOps project deployed in AWS Cloud.
 
 The goal of this project is to practice building modern Cloud infrastructure using Infrastructure as Code (IaC), Kubernetes, Docker, and CI/CD.
 
+## Project Structure
+
+```text
+devops-project-2/
+│
+├── .github/
+│   └── workflows/
+│
+├── terraform/
+│   ├── backend/
+│   ├── environments/
+│   │   └── dev/
+│   └── modules/
+│
+├── kubernetes/
+│
+├── helm/
+│   └── flask-app/
+│
+├── app/
+│
+├── docs/
+│
+├── scripts/
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+
 ## Technologies used
 
 - AWS
@@ -14,26 +45,42 @@ The goal of this project is to practice building modern Cloud infrastructure usi
 - Docker
 - Kubernetes
 - Helm
-- Python Flask
+- Python
+- Flask
 - GitHub Actions
-- Jenkins (later)
-- GitLab CI/CD (later)
 
-## Planned Architecture
+## Architecture
 
-GitHub
-↓
-GitHub Actions
-↓
-Terraform
-↓
-AWS
-↓
-Amazon EKS
-↓
-Kubernetes
-↓
-Flask Application
+```text
+                    GitHub
+                       │
+                       ▼
+               GitHub Actions
+                       │
+          ┌────────────┴────────────┐
+          ▼                         ▼
+    Terraform                 Docker Build
+          │                         │
+          ▼                         ▼
+        AWS ECR               Docker Image
+          │
+          ▼
+        Amazon EKS
+          │
+          ▼
+     Kubernetes Cluster
+          │
+     ┌────┴────┐
+     ▼         ▼
+ Flask API   Helm Chart
+          │
+          ▼
+ Application Load Balancer
+          │
+          ▼
+        Internet
+```
+
 
 ## Project Goals
 
