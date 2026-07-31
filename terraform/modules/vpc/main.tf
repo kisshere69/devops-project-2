@@ -33,3 +33,14 @@ resource "aws_internet_gateway" "this" {
     Environment = var.environment
   }
 }
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-public-rt"
+    Project     = var.project_name
+    Environment = var.environment
+    Type        = "Public"
+  }
+}
