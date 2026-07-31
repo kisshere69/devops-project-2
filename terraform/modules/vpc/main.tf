@@ -38,6 +38,32 @@ resource "aws_subnet" "public_b" {
   }
 }
 
+resource "aws_subnet" "private_a" {
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = var.private_subnet_a_cidr
+  availability_zone = var.az_a
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-private-a"
+    Project     = var.project_name
+    Environment = var.environment
+    Type        = "Private"
+  }
+}
+
+resource "aws_subnet" "private_b" {
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = var.private_subnet_b_cidr
+  availability_zone = var.az_b
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-private-b"
+    Project     = var.project_name
+    Environment = var.environment
+    Type        = "Private"
+  }
+}
+
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
