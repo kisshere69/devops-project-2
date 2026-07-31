@@ -9,3 +9,8 @@ output "aws_caller_arn" {
 
   value = data.aws_caller_identity.current.arn
 }
+
+output "vpc_id" {
+  description = "VPC ID"
+  value       = module.vpc.vpc_id
+}
