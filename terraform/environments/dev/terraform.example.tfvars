@@ -8,3 +8,6 @@ az_a                 = "value"
 
 public_subnet_b_cidr = "2.3.1.0/69"
 az_b                 = "value"
+
+private_subnet_a_cidr = "value"
+private_subnet_b_cidr = "value"
