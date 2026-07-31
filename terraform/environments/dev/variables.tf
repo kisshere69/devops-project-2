@@ -26,3 +26,13 @@ variable "az_a" {
   description = "Primary Availability Zone"
   type        = string
 }
+
+variable "public_subnet_b_cidr" {
+  description = "CIDR block for Public Subnet B"
+  type        = string
+}
+
+variable "az_b" {
+  description = "Secondary Availability Zone"
+  type        = string
+}

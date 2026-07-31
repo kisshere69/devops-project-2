@@ -11,4 +11,7 @@ module "vpc" {
 
   public_subnet_a_cidr = var.public_subnet_a_cidr
   az_a                 = var.az_a
+
+  public_subnet_b_cidr = var.public_subnet_b_cidr
+  az_b                 = var.az_b
 }
