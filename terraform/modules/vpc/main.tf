@@ -85,6 +85,17 @@ resource "aws_route_table" "public" {
   }
 }
 
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-private-rt"
+    Project     = var.project_name
+    Environment = var.environment
+    Type        = "Private"
+  }
+}
+
 resource "aws_route" "public_internet_access" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
