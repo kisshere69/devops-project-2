@@ -56,12 +56,12 @@
 
 ## Planned
 
-- [ ] Public Subnet B
-- [ ] Private Subnet A
-- [ ] Private Subnet B
-- [ ] NAT Gateway
-- [ ] Private Route Table
-- [ ] Route Table Associations
+- [x] Public Subnet B
+- [x] Private Subnet A
+- [x] Private Subnet B
+- [x] NAT Gateway
+- [x] Private Route Table
+- [x] Route Table Associations
 
 ---
 
