@@ -4,8 +4,6 @@
 
 # Sprint 1 - Project Initialization
 
-## Completed
-
 ### Repository
 
 - [x] GitHub repository
@@ -54,8 +52,6 @@
 
 # Sprint 2 - Networking
 
-## Planned
-
 - [x] Public Subnet B
 - [x] Private Subnet A
 - [x] Private Subnet B
@@ -67,17 +63,13 @@
 
 # Sprint 3 - Container Registry
 
-## Planned
-
-- [ ] Amazon ECR
-- [ ] Image Repository
-- [ ] Image Lifecycle Policy
+- [x] Amazon ECR
+- [x] Image Repository
+- [x] Image Lifecycle Policy
 
 ---
 
 # Sprint 4 - Kubernetes
-
-## Planned
 
 - [ ] Amazon EKS
 - [ ] Worker Nodes
@@ -87,8 +79,6 @@
 ---
 
 # Sprint 5 - Application
-
-## Planned
 
 - [ ] Flask Application
 - [ ] Docker Image
@@ -100,8 +90,6 @@
 
 # Sprint 6 - CI/CD
 
-## Planned
-
 - [ ] GitHub Actions
 - [ ] Terraform Validation
 - [ ] Terraform Plan
@@ -112,8 +100,6 @@
 ---
 
 # Sprint 7 - Observability
-
-## Planned
 
 - [ ] Monitoring
 - [ ] Logging
