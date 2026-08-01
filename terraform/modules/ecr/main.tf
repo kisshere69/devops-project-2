@@ -17,3 +17,9 @@ resource "aws_ecr_repository" "this" {
     ManagedBy   = "Terraform"
   }
 }
+
+resource "aws_ecr_lifecycle_policy" "this" {
+  repository = aws_ecr_repository.this.name
+
+  policy = file("${path.module}/lifecycle_policy.json")
+}
