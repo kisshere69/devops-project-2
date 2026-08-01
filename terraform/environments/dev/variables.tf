@@ -46,3 +46,22 @@ variable "private_subnet_b_cidr" {
   description = "CIDR block for Private Subnet B"
   type        = string
 }
+
+variable "repository_name" {
+  description = "Amazon ECR repository name"
+  type        = string
+}
+
+variable "image_tag_mutability" {
+  description = "Image tag mutability"
+  type        = string
+
+  default = "MUTABLE"
+}
+
+variable "scan_on_push" {
+  description = "Enable image scanning"
+
+  type    = bool
+  default = true
+}

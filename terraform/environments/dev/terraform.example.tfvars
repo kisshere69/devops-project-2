@@ -11,3 +11,7 @@ az_b                 = "value"
 
 private_subnet_a_cidr = "value"
 private_subnet_b_cidr = "value"
+
+repository_name      = "value"
+image_tag_mutability = "MUTABLE"
+scan_on_push         = true
