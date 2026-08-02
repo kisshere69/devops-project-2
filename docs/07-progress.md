@@ -84,15 +84,15 @@
 
 ## Flask Application
 
-- [ ] Flask Application
-- [ ] requirements.txt
-- [ ] Dockerfile
-- [ ] .dockerignore
+- [x] Flask Application
+- [x] requirements.txt
+- [x] Dockerfile
+- [x] .dockerignore
 
 ## Docker
 
-- [ ] Local Docker Build
-- [ ] Local Docker Run
+- [x] Local Docker Build
+- [x] Local Docker Run
 - [ ] Push Image to Amazon ECR
 
 ---
