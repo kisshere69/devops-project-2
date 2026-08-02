@@ -71,39 +71,84 @@
 
 # Sprint 4 - Kubernetes
 
-- [ ] Amazon EKS
-- [ ] Worker Nodes
-- [ ] kubectl configuration
-- [ ] Helm
+## Amazon EKS
+
+- [ ] Amazon EKS Cluster
+- [ ] Managed Node Group
+- [ ] kubectl Configuration
+- [ ] Cluster Verification
 
 ---
 
-# Sprint 5 - Application
+# Sprint 5 - Containerized Application
+
+## Flask Application
 
 - [ ] Flask Application
-- [ ] Docker Image
-- [ ] Kubernetes Deployment
+- [ ] requirements.txt
+- [ ] Dockerfile
+- [ ] .dockerignore
+
+## Docker
+
+- [ ] Local Docker Build
+- [ ] Local Docker Run
+- [ ] Push Image to Amazon ECR
+
+---
+
+# Sprint 6 - Kubernetes Workloads
+
+## Kubernetes
+
+- [ ] Namespace
+- [ ] Deployment
 - [ ] Service
+- [ ] ConfigMap
+- [ ] Secret
 - [ ] Ingress
 
+## Helm
+
+- [ ] Helm Chart
+- [ ] Helm Release
+
 ---
 
-# Sprint 6 - CI/CD
+# Sprint 7 - CI/CD
 
-- [ ] GitHub Actions
-- [ ] Terraform Validation
+## GitHub Actions
+
+- [ ] Terraform Format
+- [ ] Terraform Validate
 - [ ] Terraform Plan
 - [ ] Docker Build
-- [ ] Image Push
-- [ ] Deployment
+- [ ] Push Image to Amazon ECR
+- [ ] Helm Upgrade
+- [ ] Deployment Verification
 
 ---
 
-# Sprint 7 - Observability
+# Sprint 8 - Observability
 
-- [ ] Monitoring
-- [ ] Logging
-- [ ] Metrics
-- [ ] Dashboards
+## Monitoring
+
+- [ ] Metrics Server
+- [ ] Prometheus
+- [ ] Grafana
+
+## Logging
+
+- [ ] Centralized Logging
 
 ---
+
+# Sprint 9 - Security
+
+## Security
+
+- [ ] IAM Roles for Service Accounts (IRSA)
+- [ ] Network Policies
+- [ ] Security Groups Review
+- [ ] Secrets Management
+- [ ] Image Security Review
