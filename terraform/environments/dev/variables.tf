@@ -70,3 +70,40 @@ variable "cluster_version" {
   description = "Amazon EKS Kubernetes version"
   type        = string
 }
+
+# EKS Managed Node Group Variables
+
+variable "node_group_name" {
+  description = "Name of the EKS managed node group"
+  type        = string
+}
+
+variable "node_instance_types" {
+  description = "EC2 instance types for the EKS node group"
+  type        = list(string)
+}
+
+variable "node_capacity_type" {
+  description = "Capacity type for the EKS node group"
+  type        = string
+}
+
+variable "node_desired_size" {
+  description = "Desired number of worker nodes"
+  type        = number
+}
+
+variable "node_min_size" {
+  description = "Minimum number of worker nodes"
+  type        = number
+}
+
+variable "node_max_size" {
+  description = "Maximum number of worker nodes"
+  type        = number
+}
+
+variable "node_disk_size" {
+  description = "Worker node root volume size in GiB"
+  type        = number
+}
