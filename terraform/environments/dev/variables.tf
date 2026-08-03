@@ -65,3 +65,8 @@ variable "scan_on_push" {
   type    = bool
   default = true
 }
+
+variable "cluster_version" {
+  description = "Amazon EKS Kubernetes version"
+  type        = string
+}
