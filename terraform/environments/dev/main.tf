@@ -36,6 +36,15 @@ module "eks" {
   cluster_name    = var.project_name
   cluster_version = var.cluster_version
 
+  node_group_name    = var.node_group_name
+  node_instance_types = var.node_instance_types
+  node_capacity_type = var.node_capacity_type
+
+  node_desired_size = var.node_desired_size
+  node_min_size     = var.node_min_size
+  node_max_size     = var.node_max_size
+  node_disk_size    = var.node_disk_size
+
   project_name = var.project_name
   environment  = var.environment
 
