@@ -29,3 +29,15 @@ module "ecr" {
   image_tag_mutability = var.image_tag_mutability
   scan_on_push         = var.scan_on_push
 }
+
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name    = var.project_name
+  cluster_version = var.cluster_version
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  private_subnet_ids = module.vpc.private_subnet_ids
+}
