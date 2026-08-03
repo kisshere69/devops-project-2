@@ -15,3 +15,5 @@ private_subnet_b_cidr = "value"
 repository_name      = "value"
 image_tag_mutability = "MUTABLE"
 scan_on_push         = true
+
+cluster_version = "1.36"
