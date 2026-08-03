@@ -73,8 +73,8 @@
 
 ## Amazon EKS
 
-- [ ] Amazon EKS Cluster
-- [ ] Managed Node Group
+- [x] Amazon EKS Cluster
+- [x] Managed Node Group
 - [ ] kubectl Configuration
 - [ ] Cluster Verification
 
