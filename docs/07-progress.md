@@ -93,7 +93,7 @@
 
 - [x] Local Docker Build
 - [x] Local Docker Run
-- [ ] Push Image to Amazon ECR
+- [x] Push Image to Amazon ECR
 
 ---
 
