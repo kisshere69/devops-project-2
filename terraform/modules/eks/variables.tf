@@ -1,3 +1,5 @@
+# EKS Cluster Variables
+
 variable "cluster_name" {
   description = "Amazon EKS cluster name"
   type        = string
@@ -22,6 +24,8 @@ variable "project_name" {
   description = "Project name"
   type        = string
 }
+
+# EKS Managed Node Group Variables
 
 variable "node_group_name" {
   description = "Name of the EKS managed node group"
