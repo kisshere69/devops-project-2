@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flask-app
+  labels:
+    app.kubernetes.io/name: flask-app
+    app.kubernetes.io/part-of: devops-project-2
+    environment: dev

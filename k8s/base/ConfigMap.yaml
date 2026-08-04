@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-app-config
+  namespace: flask-app
+  labels:
+    app.kubernetes.io/name: flask-app
+    app.kubernetes.io/part-of: devops-project-2
+    environment: dev
+data:
+  APP_NAME: "devops-project-2"
+  APP_ENV: "dev"
+  LOG_LEVEL: "INFO"
