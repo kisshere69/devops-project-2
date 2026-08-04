@@ -99,19 +99,55 @@
 
 # Sprint 6 - Kubernetes Workloads
 
-## Kubernetes
-
-- [ ] Namespace
-- [ ] Deployment
-- [ ] Service
-- [ ] ConfigMap
-- [ ] Secret
+- [x] Namespace
+- [x] ConfigMap
+- [x] Deployment
+- [x] Service
+- [x] Namespace-scoped RBAC
+- [ ] Kubernetes Secret created at runtime
 - [ ] Ingress
+
+## AWS Authorization for GitHub Actions
+
+- [x] GitHub OIDC provider configuration
+- [x] GitHub Actions IAM role creation
+- [x] Least-privilege EKS IAM policy
+- [x] EKS Access Entry configuration
+- [x] Kubernetes group mapping
+- [ ] AWS authorization chain runtime verification
+- [ ] Kubernetes RBAC runtime verification
+
+## GitHub Actions
+
+- [x] `APP_SECRET` added to GitHub Secrets
+- [x] Kubernetes Secret deployment workflow (`deploy-secret.yaml`) configured
+- [ ] OIDC authentication test
+- [ ] Kubernetes Secret runtime deployment
+- [ ] Application deployment workflow
+
+## Runtime Validation
+
+- [ ] Apply Kubernetes manifests
+- [ ] Verify Pods are Running and Ready
+- [ ] Verify readiness and liveness probes
+- [ ] Verify Service EndpointSlices
+- [ ] Verify ConfigMap variables in the application
+- [ ] Verify Secret is available to the application
+- [ ] Verify namespace isolation with `kubectl auth can-i`
 
 ## Helm
 
-- [ ] Helm Chart
-- [ ] Helm Release
+- [ ] Helm Chart structure
+- [ ] Kubernetes manifests converted to Helm templates
+- [ ] Development values file
+- [ ] Helm Release deployment
+
+## Ingress
+
+- [ ] AWS Load Balancer Controller IAM configuration
+- [ ] AWS Load Balancer Controller installation with Helm
+- [ ] Ingress manifest
+- [ ] External access validation
 
 ---
 
