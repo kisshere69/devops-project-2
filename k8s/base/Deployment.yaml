@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: flask-app
+  labels:
+    app.kubernetes.io/name: flask-app
+    app.kubernetes.io/part-of: devops-project-2
+    environment: dev
+
+# Deployment spec
+spec:
+  replicas: 2
+  strategy: # Zero downtime strategy
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: flask-app
+
+  # Pod template
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: flask-app
+        app.kubernetes.io/part-of: devops-project-2
+        environment: dev
+    spec:
+      containers:
+        - name: flask-app
+          image: 215229808174.dkr.ecr.eu-central-1.amazonaws.com/flask-app:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: flask-app-config
+            - secretRef:
+                name: flask-app-secret
+          
+          # Probes for health checks
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+
+          resources:
+            requests:
+              cpu: 100m # 0.1 CPU
+              memory: 128Mi
+            limits:
+              cpu: 250m # 0.25 CPU
+              memory: 256Mi
+
+      terminationGracePeriodSeconds: 30
