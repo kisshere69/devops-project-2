@@ -50,3 +50,15 @@ module "eks" {
 
   private_subnet_ids = module.vpc.private_subnet_ids
 }
+
+module "github_oidc" {
+  source = "../../modules/github-oidc"
+
+  github_repository = var.github_repository
+  github_branch     = var.github_branch
+
+  eks_cluster_arn = module.eks.cluster_arn
+
+  project_name = var.project_name
+  environment  = var.environment
+}

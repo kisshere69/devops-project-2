@@ -107,3 +107,16 @@ variable "node_disk_size" {
   description = "Worker node root volume size in GiB"
   type        = number
 }
+
+# GitHub OIDC Variables
+
+variable "github_repository" {
+  description = "GitHub repository in owner/repository format"
+  type        = string
+}
+
+variable "github_branch" {
+  description = "GitHub branch allowed to deploy"
+  type        = string
+  default     = "main"
+}
