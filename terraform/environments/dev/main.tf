@@ -57,7 +57,8 @@ module "github_oidc" {
   github_repository = var.github_repository
   github_branch     = var.github_branch
 
-  eks_cluster_arn = module.eks.cluster_arn
+  eks_cluster_arn  = module.eks.cluster_arn
+  eks_cluster_name = module.eks.cluster_name
 
   project_name = var.project_name
   environment  = var.environment
