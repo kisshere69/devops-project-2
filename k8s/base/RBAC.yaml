@@ -1,0 +1,65 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flask-app-deployer
+  namespace: flask-app
+  labels:
+    app.kubernetes.io/name: flask-app
+    app.kubernetes.io/part-of: devops-project-2
+    environment: dev
+rules:
+  - apiGroups:
+      - "" # Core API group (ConfigMaps, Secrets, Services, etc.)
+    resources:
+      - configmaps
+      - secrets
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+
+  - apiGroups:
+      - apps # Apps API group (Deployments, ReplicaSets, etc.)
+    resources:
+      - deployments
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flask-app-deployer
+  namespace: flask-app
+  labels:
+    app.kubernetes.io/name: flask-app
+    app.kubernetes.io/part-of: devops-project-2
+    environment: dev
+subjects:
+  - kind: Group
+    name: github-actions-deployers # This is a Kubernetes group that will be granted the permissions defined in the Role.
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: flask-app-deployer
