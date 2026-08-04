@@ -90,3 +90,19 @@ resource "aws_iam_role_policy_attachment" "eks_access" {
   role       = aws_iam_role.github_actions.name
   policy_arn = aws_iam_policy.eks_access.arn
 }
+
+resource "aws_eks_access_entry" "github_actions" {
+  cluster_name  = var.eks_cluster_name
+  principal_arn = aws_iam_role.github_actions.arn
+  type          = "STANDARD"
+
+  kubernetes_groups = [
+    "github-actions-deployers"
+  ]
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-github-actions-access"
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
