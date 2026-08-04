@@ -27,3 +27,6 @@ node_min_size     = 1
 node_max_size     = 3
 
 node_disk_size = 20
+
+github_repository = "owner/repository"
+github_branch     = "main"
