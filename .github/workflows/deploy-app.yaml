@@ -34,3 +34,35 @@ jobs:
                 role-to-assume: arn:aws:iam::215229808174:role/devops-project-2-dev-github-actions-role
                 role-session-name: github-actions-deploy-app
                 aws-region: ${{ env.AWS_REGION }}
+            
+            - name: Configure kubectl
+              run: |
+                aws eks update-kubeconfig \
+                --region "$AWS_REGION" \
+                --name "$EKS_CLUSTER_NAME"
+
+            - name: Verify deployment prerequisites
+              run: |
+                kubectl get namespace "$KUBERNETES_NAMESPACE"
+
+                kubectl get role flask-app-deployer \
+                --namespace "$KUBERNETES_NAMESPACE"
+
+                kubectl get rolebinding flask-app-deployer \
+                --namespace "$KUBERNETES_NAMESPACE"
+
+            - name: Verify Kubernetes permissions
+              run: |
+                for permission in \
+                    "get configmaps" \
+                    "create configmaps" \
+                    "patch configmaps" \
+                    "get secrets" \
+                    "create secrets" \
+                    "patch secrets" \
+                    "get deployments.apps" \
+                    "create deployments.apps" \
+                    "patch deployments.apps" \
+                    "get services" \
+                    "create services" \
+                    "patch services"
