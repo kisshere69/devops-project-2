@@ -57,6 +57,20 @@ jobs:
                     "create services" \
                     "patch services"
                     "get endpointslices.discovery.k8s.io"
+                  do
+                    verb="${permission%% *}"
+                    resource="${permission#* }"
+
+                    result="$(
+                      kubectl auth can-i "$verb" "$resource" \
+                        --namespace "$KUBERNETES_NAMESPACE"
+                    )"
+
+                    if [ "$result" != "yes" ]; then
+                      echo "Missing permission: $verb $resource"
+                      exit 1
+                    fi
+                  done
 
             - name: Validate APP_SECRET
               env:
