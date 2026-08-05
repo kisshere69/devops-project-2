@@ -56,6 +56,7 @@ jobs:
                     "get services" \
                     "create services" \
                     "patch services"
+                    "get endpointslices.discovery.k8s.io"
 
             - name: Validate APP_SECRET
               env:
