@@ -28,3 +28,8 @@ variable "eks_cluster_name" {
   description = "Name of the EKS cluster where GitHub Actions receives access"
   type        = string
 }
+
+variable "github_oidc_subject" {
+  description = "Exact GitHub OIDC subject allowed to assume the IAM role"
+  type        = string
+}

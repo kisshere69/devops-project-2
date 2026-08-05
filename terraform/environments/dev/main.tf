@@ -83,6 +83,8 @@ module "github_oidc" {
   eks_cluster_arn  = module.eks.cluster_arn
   eks_cluster_name = module.eks.cluster_name
 
+  github_oidc_subject = "repo:kisshere69@155293675/devops-project-2@1315877380:ref:refs/heads/main"
+
   project_name = var.project_name
   environment  = var.environment
 }
