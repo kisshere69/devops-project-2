@@ -22,7 +22,7 @@ jobs:
         timeout-minutes: 15 # A timeout of 15 minutes to prevent long-running deployments
 
         # Running the deployment job only on the main branch
-        if: github.ref == 'main'
+        if: github.ref == 'refs/heads/main'
 
         steps:
             - name: Checkout repository
