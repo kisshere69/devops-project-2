@@ -41,16 +41,6 @@ jobs:
                 --region "$AWS_REGION" \
                 --name "$EKS_CLUSTER_NAME"
 
-            - name: Verify deployment prerequisites
-              run: |
-                kubectl get namespace "$KUBERNETES_NAMESPACE"
-
-                kubectl get role flask-app-deployer \
-                --namespace "$KUBERNETES_NAMESPACE"
-
-                kubectl get rolebinding flask-app-deployer \
-                --namespace "$KUBERNETES_NAMESPACE"
-
             - name: Verify Kubernetes permissions
               run: |
                 for permission in \
