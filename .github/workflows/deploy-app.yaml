@@ -117,3 +117,13 @@ jobs:
                 kubectl get endpointslices \
                 --namespace "$KUBERNETES_NAMESPACE" \
                 --selector kubernetes.io/service-name="$SERVICE_NAME"
+
+            - name: Verify Kubernetes Secret
+              run: |
+                test -n "$(
+                    kubectl get secret "$KUBERNETES_SECRET_NAME" \
+                    --namespace "$KUBERNETES_NAMESPACE" \
+                    --output=jsonpath='{.data.APP_SECRET}'
+                )"
+
+                echo "Application deployment completed successfully."
