@@ -66,3 +66,26 @@ jobs:
                     "get services" \
                     "create services" \
                     "patch services"
+
+            - name: Validate APP_SECRET
+              env:
+                APP_SECRET: ${{ secrets.APP_SECRET }}
+              run: |
+                if [ -z "$APP_SECRET" ]; then
+                  echo "Error: APP_SECRET is not set. Please set the APP_SECRET."
+                  exit 1
+                fi
+
+            - name: Apply ConfigMap
+              run: |
+                kubectl apply -f k8s/base/configmap.yaml
+
+            - name: Create or update k8s Secret
+              env:
+                APP_SECRET: ${{ secrets.APP_SECRET }}
+              run: |
+                kubectl create secret generic "$KUBERNETES_SECRET_NAME" \
+                --namespace "$KUBERNETES_NAMESPACE" \
+                --from-literal=APP_SECRET="$APP_SECRET" \
+                --dry-run=client \
+                --output=yaml | kubectl apply -f -
