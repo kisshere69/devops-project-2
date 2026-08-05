@@ -55,7 +55,7 @@ jobs:
                     "patch deployments.apps" \
                     "get services" \
                     "create services" \
-                    "patch services"
+                    "patch services" \
                     "get endpointslices.discovery.k8s.io"
                   do
                     verb="${permission%% *}"
