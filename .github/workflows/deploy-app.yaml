@@ -1,0 +1,36 @@
+name: Deploy Flask Application
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-central-1
+  EKS_CLUSTER_NAME: devops-project-2
+  KUBERNETES_NAMESPACE: flask-app
+  KUBERNETES_SECRET_NAME: flask-app-secret
+  DEPLOYMENT_NAME: flask-app
+  SERVICE_NAME: flask-app
+
+jobs:
+    deploy:
+        name: Deploy Flask Application to EKS
+        runs-on: ubuntu-latest
+        timeout-minutes: 15 # A timeout of 15 minutes to prevent long-running deployments
+
+        # Running the deployment job only on the main branch
+        if: github.ref == 'main'
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                role-to-assume: arn:aws:iam::215229808174:role/devops-project-2-dev-github-actions-role
+                role-session-name: github-actions-deploy-app
+                aws-region: ${{ env.AWS_REGION }}
