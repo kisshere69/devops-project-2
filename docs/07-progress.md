@@ -105,8 +105,6 @@
 - [x] Service
 - [x] Namespace-scoped RBAC
 - [x] Kubernetes Secret created at runtime
-- [ ] Ingress
-
 ## AWS Authorization for GitHub Actions
 
 - [x] GitHub OIDC provider configuration
@@ -143,13 +141,6 @@
 - [x] Helm Chart lint validation
 - [x] Helm client-side dry-run
 - [ ] Helm Release deployment
-
-## Ingress
-
-- [ ] AWS Load Balancer Controller IAM configuration
-- [ ] AWS Load Balancer Controller installation with Helm
-- [ ] Ingress manifest
-- [ ] External access validation
 
 ---
 
