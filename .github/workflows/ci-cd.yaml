@@ -1,4 +1,47 @@
+name: CI/CD Pipeline
+
 on:
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Workflow Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform format check
+        run: terraform fmt -check -recursive terraform
+
+      - name: Terraform init without backend
+        working-directory: terraform/environments/dev
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        working-directory: terraform/environments/dev
+        run: terraform validate
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Helm lint
+        run: helm lint ./helm
+
+      - name: Helm template validation
+        run: |
+          helm template flask-app ./helm \
+            --namespace flask-app \
+            --values ./helm/values.yaml
+
+      - name: Docker build validation
+        run: docker build -t flask-app:ci ./app
