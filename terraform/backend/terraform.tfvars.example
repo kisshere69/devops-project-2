@@ -1,0 +1,3 @@
+aws_region       = "eu-central-1"
+project_name     = "name"
+state_bucket_name = "name-terraform-state"
