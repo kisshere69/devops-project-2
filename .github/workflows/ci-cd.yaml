@@ -9,27 +9,41 @@ permissions:
   contents: read
 
 jobs:
-  validate:
-    name: Workflow Validation
+  terraform-checks:
+    name: Terraform Checks
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Fix Terraform permissions for act
+        if: ${{ env.ACT }}
+        run: |
+          chmod +x "${TERRAFORM_CLI_PATH}/terraform"
+          chmod +x "${TERRAFORM_CLI_PATH}/terraform-bin" || true
+
       - name: Terraform format check
         run: terraform fmt -check -recursive terraform
 
-      - name: Terraform init without backend
+      - name: Terraform init
         working-directory: terraform/environments/dev
         run: terraform init -backend=false
 
       - name: Terraform validate
         working-directory: terraform/environments/dev
         run: terraform validate
+
+  helm-checks:
+    name: Helm Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Helm
         uses: azure/setup-helm@v4
@@ -41,7 +55,15 @@ jobs:
         run: |
           helm template flask-app ./helm \
             --namespace flask-app \
-            --values ./helm/values.yaml
+            --values helm/values-dev.yaml
+
+  docker-checks:
+    name: Docker Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Docker build validation
         run: docker build -t flask-app:ci ./app
