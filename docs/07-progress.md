@@ -137,9 +137,11 @@
 
 ## Helm
 
-- [ ] Helm Chart structure
-- [ ] Kubernetes manifests converted to Helm templates
-- [ ] Development values file
+- [x] Helm Chart structure
+- [x] Kubernetes manifests converted to Helm templates
+- [x] Development values file
+- [x] Helm Chart lint validation
+- [x] Helm client-side dry-run
 - [ ] Helm Release deployment
 
 ## Ingress
