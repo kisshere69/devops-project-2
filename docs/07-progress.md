@@ -144,17 +144,27 @@
 
 ---
 
-# Sprint 7 - CI/CD
+# Sprint 7 - CI/CD in GitHub Actions
 
-## GitHub Actions
+## Continuous Integration
 
-- [ ] Terraform Format
-- [ ] Terraform Validate
+- [x] Terraform Format Check
+- [x] Terraform Validate
 - [ ] Terraform Plan
-- [ ] Docker Build
+- [x] Helm Lint
+- [x] Helm Template Validation
+- [x] Docker Build Validation
+
+## Continuous Delivery
+
+- [ ] Authenticate to AWS through GitHub OIDC
+- [ ] Build Docker Image
+- [ ] Tag Image with Git Commit SHA
 - [ ] Push Image to Amazon ECR
+- [ ] Configure EKS kubeconfig
 - [ ] Helm Upgrade
-- [ ] Deployment Verification
+- [ ] Kubernetes Rollout Verification
+- [ ] Application Smoke Test
 
 ---
 
