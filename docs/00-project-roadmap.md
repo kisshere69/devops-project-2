@@ -13,10 +13,10 @@
 
 ### Phase 2
 
-- [ ] Amazon ECR
-- [ ] Docker image
-- [ ] Amazon EKS
-- [ ] Helm Chart
+- [x] Amazon ECR
+- [x] Docker image
+- [x] Amazon EKS
+- [x] Helm Chart
 
 ### Phase 3
 
