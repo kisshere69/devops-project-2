@@ -4,6 +4,11 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
+variable "aws_account_id" {
+  description = "AWS account ID"
+  type        = string
+}
+
 variable "project_name" {
   description = "Project name used for resource naming and tags"
   type        = string
@@ -19,4 +24,9 @@ variable "environment" {
 variable "github_oidc_subjects" {
   description = "GitHub OIDC subjects allowed to assume the Terraform plan role"
   type        = list(string)
+}
+
+variable "terraform_state_bucket" {
+  description = "S3 bucket containing Terraform remote state"
+  type        = string
 }
