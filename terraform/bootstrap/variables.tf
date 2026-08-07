@@ -16,8 +16,7 @@ variable "environment" {
   default     = "shared"
 }
 
-variable "github_repository" {
-  description = "GitHub repository allowed to assume the CI role"
-  type        = string
-  default     = "kisshere69/devops-project-2"
+variable "github_oidc_subjects" {
+  description = "GitHub OIDC subjects allowed to assume the Terraform plan role"
+  type        = list(string)
 }
