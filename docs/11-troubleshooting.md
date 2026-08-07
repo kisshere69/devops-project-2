@@ -369,3 +369,102 @@ Additional validation included:
 kubectl get pods --namespace kube-system
 kubectl get namespaces
 ```
+
+## Troubleshooting: Terraform Plan failed because CI variables are missing
+
+### Problem summary
+
+The `Terraform Plan` GitHub Actions job failed with errors such as:
+
+```text
+Error: No value for required variable
+
+The root module input variable "aws_region" is not set
+The root module input variable "project_name" is not set
+```
+
+The same Terraform configuration worked locally.
+
+### Root cause
+
+Local Terraform runs used values stored in `terraform/environments/dev/terraform.tfvars`.
+
+This file is excluded from Git and therefore does not exist on the GitHub Actions runner.
+
+The CI pipeline had no values for the required Terraform variables.
+
+### Resolution
+
+A separate CI variables file was created `terraform/environments/dev/terraform.ci.tfvars`.
+
+The Terraform Plan command was updated to explicitly use it:
+
+```bash
+terraform plan \
+  -input=false \
+  -lock-timeout=60s \
+  -no-color \
+  -var-file=terraform.ci.tfvars
+```
+
+P.S. The file contains only non-sensitive infrastructure configuration.
+
+### Validation
+
+The same `terraform plan...` command was tested locally first.
+
+Result:
+
+```text
+Plan: 32 to add, 0 to change, 0 to destroy.
+```
+
+Then, the `Terraform Plan` job was executed in GitHub Actions successfully.
+
+---
+
+## Troubleshooting: Syntax error. Terraform variables used as literal provider tag values.
+
+### Problem summary
+
+Terraform AWS provider tags were configured as:
+
+```hcl
+Project     = "var.project_name"
+Environment = "var.environment"
+```
+
+This caused Terraform to treat the variable references as literal strings.
+
+### Root cause
+
+Terraform variable references were incorrectly placed inside quotation marks.
+
+### Resolution
+
+The provider configuration was corrected to reference the variables directly:
+
+```hcl
+provider "aws" {
+  region = var.aws_region
+
+  default_tags {
+    tags = {
+      Project     = var.project_name
+      Environment = var.environment
+      ManagedBy   = "Terraform"
+    }
+  }
+}
+```
+
+### Validation
+
+Terraform configuration was formatted and validated:
+
+```bash
+terraform fmt
+terraform validate
+```
+
+Terraform Plan then completed successfully using the corrected provider configuration.
