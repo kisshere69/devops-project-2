@@ -29,4 +29,4 @@ node_disk_size    = 20
 github_repository = "kisshere69/devops-project-2"
 
 github_oidc_provider_arn = "arn:aws:iam::215229808174:oidc-provider/token.actions.githubusercontent.com"
-github_oidc_subject = "repo:kisshere69@155293675/devops-project-2@1315877380:ref:refs/heads/main"
+github_oidc_subject      = "repo:kisshere69@155293675/devops-project-2@1315877380:ref:refs/heads/main"

@@ -77,6 +77,8 @@ resource "aws_eks_access_policy_association" "terraform_admin" {
 module "github_oidc" {
   source = "../../modules/github-oidc"
 
+  repository_name = var.repository_name
+
   github_repository = var.github_repository
   github_branch     = var.github_branch
 
