@@ -1,17 +1,3 @@
-resource "aws_iam_openid_connect_provider" "github" {
-  url = "https://token.actions.githubusercontent.com"
-
-  client_id_list = [
-    "sts.amazonaws.com"
-  ]
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-github-oidc"
-    Project     = var.project_name
-    Environment = var.environment
-  }
-}
-
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
     effect = "Allow"
@@ -24,7 +10,7 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
       type = "Federated"
 
       identifiers = [
-        aws_iam_openid_connect_provider.github.arn
+        var.github_oidc_provider_arn
       ]
     }
 

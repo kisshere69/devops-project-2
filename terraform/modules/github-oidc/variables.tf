@@ -33,3 +33,8 @@ variable "github_oidc_subject" {
   description = "Exact GitHub OIDC subject allowed to assume the IAM role"
   type        = string
 }
+
+variable "github_oidc_provider_arn" {
+  description = "ARN of the shared GitHub Actions OIDC provider"
+  type        = string
+}
