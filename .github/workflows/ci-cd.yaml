@@ -67,3 +67,37 @@ jobs:
 
       - name: Docker build validation
         run: docker build -t flask-app:ci ./app
+  
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_PLAN_ROLE_ARN }}
+          aws-region: eu-central-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        working-directory: terraform/environments/dev
+        run: terraform init -input=false
+
+      - name: Terraform plan
+        working-directory: terraform/environments/dev
+        run: |
+          terraform plan \
+          -input=false \
+          -lock-timeout=60s \
+          -no-color \
+          -var-file=terraform.ci.tfvars
