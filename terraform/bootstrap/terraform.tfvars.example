@@ -1,0 +1,4 @@
+aws_region        = "eu-central-1"
+project_name      = "some-project_name"
+environment       = "shared"
+github_repository = "some-repository"
