@@ -135,26 +135,38 @@ data "aws_iam_policy_document" "terraform_plan_permissions" {
   }
 
   statement {
-  sid    = "ReadInfrastructure"
+    sid = "ReadInfrastructure"
 
-  effect = "Allow"
+    effect = "Allow"
 
-  actions = [
-    "ec2:Describe*",
+    actions = [
+      "ec2:Describe*",
 
-    "eks:Describe*",
-    "eks:List*",
+      "eks:Describe*",
+      "eks:List*",
 
-    "ecr:Describe*",
-    "ecr:List*",
-    "ecr:Get*",
+      "ecr:Describe*",
+      "ecr:List*",
+      "ecr:Get*",
 
-    "iam:Get*",
-    "iam:List*",
+      "iam:Get*",
+      "iam:List*",
 
-    "sts:GetCallerIdentity"
-  ]
+      "sts:GetCallerIdentity"
+    ]
 
-  resources = ["*"]
+    resources = ["*"]
+  }
 }
+
+resource "aws_iam_policy" "terraform_plan" {
+  name = "${var.project_name}-${var.environment}-terraform-plan-policy"
+
+  description = "Read-only AWS permissions for Terraform plans"
+
+  policy = data.aws_iam_policy_document.terraform_plan_permissions.json
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-terraform-plan-policy"
+  }
 }
