@@ -13,24 +13,64 @@ devops-project-2/
 │
 ├── .github/
 │   └── workflows/
+│       └── ci-cd.yaml
+│       └── deploy-app.yaml
+│       └── deploy-secret.yaml
 │
 ├── terraform/
 │   ├── backend/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── terraform.tfvars.example
+│   │
+│   ├── bootstrap/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── terraform.tfvars.example
+│   │
 │   ├── environments/
 │   │   └── dev/
+│   │       ├── main.tf
+│   │       ├── providers.tf
+│   │       ├── variables.tf
+│   │       ├── outputs.tf
+│   │       ├── backend.tf
+│   │       ├── terraform.ci.tfvars
+│   │       └── terraform.example.tfvars
+│   │
 │   └── modules/
+│       ├── vpc/
+│       ├── ecr/
+│       ├── eks/
+│       ├── monitoring/
+│       └── github-oidc/
 │
-├── kubernetes/
+├── k8s/
+│   ├── Namespace.yaml
+│   ├── ConfigMap.yaml
+│   ├── Deployment.yaml
+│   ├── Service.yaml
+│   └── RBAC.yaml
 │
 ├── helm/
-│   └── flask-app/
+│   ├── Chart.yaml
+│   ├── values.yaml
+│   ├── values-dev.yaml
+│   └── templates/
+│       ├── _helpers.tpl
+│       ├── configmap.yaml
+│       ├── deployment.yaml
+│       └── service.yaml
 │
 ├── app/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── Dockerfile
 │
 ├── docs/
-│
-├── scripts/
-│
+│   
 ├── .gitignore
 ├── LICENSE
 └── README.md
