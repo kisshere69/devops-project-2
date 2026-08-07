@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {
+
+}
+
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
     effect = "Allow"
@@ -60,7 +64,7 @@ data "aws_iam_policy_document" "ecr_push" {
     ]
 
     resources = [
-      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${var.repository_name}"
+      "arn:aws:ecr:${var.aws_region}:${data.aws_caller_identity.current.account_id}:repository/${var.repository_name}"
     ]
   }
 }
