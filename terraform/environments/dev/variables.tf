@@ -120,3 +120,13 @@ variable "github_branch" {
   type        = string
   default     = "main"
 }
+
+variable "github_oidc_provider_arn" {
+  description = "ARN of the shared GitHub Actions OIDC provider"
+  type        = string
+}
+
+variable "github_oidc_subject" {
+  description = "value"
+  type        = string
+}

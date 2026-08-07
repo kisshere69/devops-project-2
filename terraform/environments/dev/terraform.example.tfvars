@@ -30,3 +30,6 @@ node_disk_size = 20
 
 github_repository = "owner/repository"
 github_branch     = "main"
+
+github_oidc_provider_arn = "value"
+github_oidc_subject      = "value"
