@@ -95,4 +95,9 @@ jobs:
 
       - name: Terraform plan
         working-directory: terraform/environments/dev
-        run: terraform plan -input=false -lock-timeout=60s -no-color
+        run: |
+          terraform plan \
+          -input=false \
+          -lock-timeout=60s \
+          -no-color \
+          -var-file=terraform.ci.tfvars
