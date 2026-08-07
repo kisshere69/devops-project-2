@@ -230,6 +230,7 @@ The OIDC claim inspection step was used only to identify the mismatch.
 
 After successful runtime validation, the temporary diagnostic step was removed from `.github/workflows/deploy-secret.yaml`.
 
+---
 
 ## Troubleshooting: GitHub Actions job skip
 
@@ -262,6 +263,8 @@ if: github.ref == 'refs/heads/main'
 The workflow was started again from the `main` branch.
 
 The job was no longer skipped and proceeded to execute the deployment steps.
+
+---
 
 ## Troubleshooting: Missing RBAC access to EndpointSlices
 
@@ -329,6 +332,8 @@ kubectl auth can-i delete endpointslices.discovery.k8s.io \
 
 Result `no`.
 
+---
+
 ## Troubleshooting: Kubernetes admin access was missing
 
 ### Problem summary
@@ -369,6 +374,8 @@ Additional validation included:
 kubectl get pods --namespace kube-system
 kubectl get namespaces
 ```
+
+---
 
 ## Troubleshooting: Terraform Plan failed because CI variables are missing
 
