@@ -90,3 +90,71 @@ resource "aws_iam_role" "terraform_plan" {
     Name = "${var.project_name}-${var.environment}-terraform-plan-role"
   }
 }
+
+data "aws_iam_policy_document" "terraform_plan_permissions" {
+
+  statement {
+    sid    = "ReadTerraformStateBucket"
+    effect = "Allow"
+
+    actions = [
+      "s3:ListBucket"
+    ]
+
+    resources = [
+      "arn:aws:s3:::${var.terraform_state_bucket}"
+    ]
+  }
+
+  statement {
+    sid    = "ReadTerraformState"
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "arn:aws:s3:::${var.terraform_state_bucket}/dev/terraform.tfstate"
+    ]
+  }
+
+  statement {
+    sid    = "ManageTerraformStateLock"
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ]
+
+    resources = [
+      "arn:aws:s3:::${var.terraform_state_bucket}/dev/terraform.tfstate.tflock"
+    ]
+  }
+
+  statement {
+  sid    = "ReadInfrastructure"
+
+  effect = "Allow"
+
+  actions = [
+    "ec2:Describe*",
+
+    "eks:Describe*",
+    "eks:List*",
+
+    "ecr:Describe*",
+    "ecr:List*",
+    "ecr:Get*",
+
+    "iam:Get*",
+    "iam:List*",
+
+    "sts:GetCallerIdentity"
+  ]
+
+  resources = ["*"]
+}
+}
