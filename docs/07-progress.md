@@ -150,7 +150,7 @@
 
 - [x] Terraform Format Check
 - [x] Terraform Validate
-- [ ] Terraform Plan
+- [x] Terraform Plan
 - [x] Helm Lint
 - [x] Helm Template Validation
 - [x] Docker Build Validation
