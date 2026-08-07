@@ -1,5 +1,4 @@
 aws_region        = "eu-central-1"
-aws_account_id = "123456789012"
 project_name      = "some-project_name"
 environment       = "shared"
 

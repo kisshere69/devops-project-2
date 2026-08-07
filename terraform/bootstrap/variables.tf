@@ -4,11 +4,6 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
-variable "aws_account_id" {
-  description = "AWS account ID"
-  type        = string
-}
-
 variable "project_name" {
   description = "Project name used for resource naming and tags"
   type        = string
