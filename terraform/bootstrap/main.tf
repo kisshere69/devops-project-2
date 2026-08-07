@@ -170,3 +170,8 @@ resource "aws_iam_policy" "terraform_plan" {
     Name = "${var.project_name}-${var.environment}-terraform-plan-policy"
   }
 }
+
+resource "aws_iam_role_policy_attachment" "terraform_plan" {
+  role       = aws_iam_role.terraform_plan.name
+  policy_arn = aws_iam_policy.terraform_plan.arn
+}
