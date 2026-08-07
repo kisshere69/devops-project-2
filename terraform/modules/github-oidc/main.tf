@@ -34,6 +34,37 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
   }
 }
 
+data "aws_iam_policy_document" "ecr_push" {
+  statement {
+    sid    = "GetECRAuthorizationToken"
+    effect = "Allow"
+
+    actions = [
+      "ecr:GetAuthorizationToken"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "PushImageToECR"
+    effect = "Allow"
+
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:PutImage"
+    ]
+
+    resources = [
+      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${var.repository_name}"
+    ]
+  }
+}
+
 resource "aws_iam_role" "github_actions" {
   name = "${var.project_name}-${var.environment}-github-actions-role"
 
@@ -72,9 +103,26 @@ resource "aws_iam_policy" "eks_access" {
   }
 }
 
+resource "aws_iam_policy" "ecr_push" {
+  name        = "${var.project_name}-${var.environment}-ecr-push-policy"
+  description = "Allows GitHub Actions to push Docker images to Amazon ECR"
+  policy      = data.aws_iam_policy_document.ecr_push.json
+
+  tags = {
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+
 resource "aws_iam_role_policy_attachment" "eks_access" {
   role       = aws_iam_role.github_actions.name
   policy_arn = aws_iam_policy.eks_access.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_push" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.ecr_push.arn
 }
 
 resource "aws_eks_access_entry" "github_actions" {
