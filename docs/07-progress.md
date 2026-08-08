@@ -157,14 +157,14 @@
 
 ## Continuous Delivery
 
-- [ ] Authenticate to AWS through GitHub OIDC
-- [ ] Build Docker Image
-- [ ] Tag Image with Git Commit SHA
-- [ ] Push Image to Amazon ECR
-- [ ] Configure EKS kubeconfig
-- [ ] Helm Upgrade
-- [ ] Kubernetes Rollout Verification
-- [ ] Application Smoke Test
+- [x] Authenticate to AWS through GitHub OIDC
+- [x] Build Docker Image
+- [x] Tag Image with Git Commit SHA
+- [x] Push Image to Amazon ECR
+- [x] Configure EKS kubeconfig
+- [x] Helm Upgrade
+- [x] Kubernetes Rollout Verification
+- [x] Application Smoke Test
 
 ---
 
