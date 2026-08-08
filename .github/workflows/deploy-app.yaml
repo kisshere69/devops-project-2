@@ -71,8 +71,39 @@ jobs:
 
             - name: Verify EKS connection
               run: |
-                kubectl get nodes
-                kubectl get namespace "$KUBERNETES_NAMESPACE"
+                for permission in \
+                  "get deployments.apps" \
+                  "get services" \
+                  "get configmaps"
+                do
+                  verb="${permission%% *}"
+                  resource="${permission#* }"
+
+                  result="$(
+                    kubectl auth can-i "$verb" "$resource" \
+                      --namespace "$KUBERNETES_NAMESPACE"
+                  )"
+
+                  echo "$verb $resource: $result"
+
+                  if [ "$result" != "yes" ]; then
+                    echo "Missing Kubernetes permission: $verb $resource"
+                    exit 1
+                  fi
+                done
+
+            - name: Deploy application with Helm
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                IMAGE_TAG: ${{ steps.image.outputs.image_tag }}
+              run: |
+                helm upgrade --install flask-app ./helm \
+                  --namespace "$KUBERNETES_NAMESPACE" \
+                  --values ./helm/values-dev.yaml \
+                  --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" \
+                  --set image.tag="$IMAGE_TAG" \
+                  --wait \
+                  --timeout 5m
 
             - name: Docker Image Push summary
               env:
