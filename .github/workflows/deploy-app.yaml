@@ -124,6 +124,13 @@ jobs:
                 kubectl get service flask-app \
                   --namespace "$KUBERNETES_NAMESPACE"
 
+            - name: Application smoke test
+              run: |
+                helm test flask-app \
+                  --namespace "$KUBERNETES_NAMESPACE" \
+                  --logs \
+                  --timeout 2m
+
             - name: Docker Image Push summary
               env:
                 ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
