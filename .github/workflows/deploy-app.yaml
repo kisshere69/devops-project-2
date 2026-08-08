@@ -1,4 +1,4 @@
-name: (test) Deploy Flask Application.
+name: Deploy Flask Application.
 
 on:
   workflow_dispatch:
