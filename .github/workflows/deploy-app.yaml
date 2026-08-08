@@ -1,4 +1,4 @@
-name: Deploy Flask Application
+name: (test) Deploy Flask Application.
 
 on:
   workflow_dispatch:
@@ -9,15 +9,11 @@ permissions:
 
 env:
   AWS_REGION: eu-central-1
-  EKS_CLUSTER_NAME: devops-project-2
-  KUBERNETES_NAMESPACE: flask-app
-  KUBERNETES_SECRET_NAME: flask-app-secret
-  DEPLOYMENT_NAME: flask-app
-  SERVICE_NAME: flask-app
+  ECR_REPOSITORY: flask-app
 
 jobs:
-    deploy:
-        name: Deploy Flask Application to EKS
+    build-and-push:
+        name: Build and Push Docker Image to ECR
         runs-on: ubuntu-latest
         timeout-minutes: 15 # A timeout of 15 minutes to prevent long-running deployments
 
@@ -26,109 +22,50 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v4
+              uses: aws-actions/configure-aws-credentials@v6
               with:
                 role-to-assume: arn:aws:iam::215229808174:role/devops-project-2-dev-github-actions-role
                 role-session-name: github-actions-deploy-app
                 aws-region: ${{ env.AWS_REGION }}
-            
-            - name: Configure kubectl
+
+            - name: Login to ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v2
+
+            - name: Generate Docker Image tag
+              id: image
+              shell: bash
               run: |
-                aws eks update-kubeconfig \
-                --region "$AWS_REGION" \
-                --name "$EKS_CLUSTER_NAME"
+                IMAGE_TAG="${GITHUB_SHA::7}"
 
-            - name: Verify Kubernetes permissions
-              run: |
-                for permission in \
-                    "get configmaps" \
-                    "create configmaps" \
-                    "patch configmaps" \
-                    "get secrets" \
-                    "create secrets" \
-                    "patch secrets" \
-                    "get deployments.apps" \
-                    "create deployments.apps" \
-                    "patch deployments.apps" \
-                    "get services" \
-                    "create services" \
-                    "patch services" \
-                    "get endpointslices.discovery.k8s.io"
-                  do
-                    verb="${permission%% *}"
-                    resource="${permission#* }"
+                echo "image_tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+                echo "Image tag: $IMAGE_TAG"
 
-                    result="$(
-                      kubectl auth can-i "$verb" "$resource" \
-                        --namespace "$KUBERNETES_NAMESPACE"
-                    )"
-
-                    if [ "$result" != "yes" ]; then
-                      echo "Missing permission: $verb $resource"
-                      exit 1
-                    fi
-                  done
-
-            - name: Validate APP_SECRET
+            - name: Build Docker Image
               env:
-                APP_SECRET: ${{ secrets.APP_SECRET }}
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                IMAGE_TAG: ${{ steps.image.outputs.image_tag }}
               run: |
-                if [ -z "$APP_SECRET" ]; then
-                  echo "Error: APP_SECRET is not set. Please set the APP_SECRET."
-                  exit 1
-                fi
+                docker build \
+                  --tag "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" \
+                  ./app
 
-            - name: Apply ConfigMap
-              run: |
-                kubectl apply -f k8s/base/ConfigMap.yaml
-
-            - name: Create or update k8s Secret
+            - name: Push Docker image to Amazon ECR
               env:
-                APP_SECRET: ${{ secrets.APP_SECRET }}
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                IMAGE_TAG: ${{ steps.image.outputs.image_tag }}
               run: |
-                kubectl create secret generic "$KUBERNETES_SECRET_NAME" \
-                --namespace "$KUBERNETES_NAMESPACE" \
-                --from-literal=APP_SECRET="$APP_SECRET" \
-                --dry-run=client \
-                --output=yaml | kubectl apply -f -
+                docker push \
+                  "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-            - name: Apply app's resources (Deployment and Service)
+            - name: Docker Image Push summary
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                IMAGE_TAG: ${{ steps.image.outputs.image_tag }}
               run: |
-                kubectl apply -f k8s/base/Deployment.yaml
-                kubectl apply -f k8s/base/Service.yaml
-
-            - name: Verify Deployment
-              run: |
-                kubectl rollout status deployment "$DEPLOYMENT_NAME" \
-                --namespace "$KUBERNETES_NAMESPACE" \
-                --timeout=5m
-
-            - name: Verify app's resource (Deployment and Service)
-              run: |
-                kubectl get deployment "$DEPLOYMENT_NAME" \
-                --namespace "$KUBERNETES_NAMESPACE"
-
-                kubectl get service "$SERVICE_NAME" \
-                --namespace "$KUBERNETES_NAMESPACE"
-
-                kubectl get pods \
-                --namespace "$KUBERNETES_NAMESPACE" \
-                --selector app.kubernetes.io/name=flask-app \
-                --output=wide
-
-                kubectl get endpointslices \
-                --namespace "$KUBERNETES_NAMESPACE" \
-                --selector kubernetes.io/service-name="$SERVICE_NAME"
-
-            - name: Verify Kubernetes Secret
-              run: |
-                test -n "$(
-                    kubectl get secret "$KUBERNETES_SECRET_NAME" \
-                    --namespace "$KUBERNETES_NAMESPACE" \
-                    --output=jsonpath='{.data.APP_SECRET}'
-                )"
-
+                echo "Image successfully pushed:"
+                echo "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
                 echo "Application deployment completed successfully."
