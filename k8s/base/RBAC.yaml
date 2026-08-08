@@ -54,6 +54,15 @@ rules:
       - list
       - watch
 
+  - apiGroups:
+    - ""
+    resources:
+      - pods
+    resourceNames:
+      - flask-app-smoke-test
+    verbs:
+      - delete
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
