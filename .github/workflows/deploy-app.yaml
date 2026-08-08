@@ -10,6 +10,8 @@ permissions:
 env:
   AWS_REGION: eu-central-1
   ECR_REPOSITORY: flask-app
+  EKS_CLUSTER_NAME: devops-project-2
+  KUBERNETES_NAMESPACE: flask-app
 
 jobs:
     build-and-push:
@@ -60,6 +62,17 @@ jobs:
               run: |
                 docker push \
                   "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+            - name: Configure EKS kubeconfig
+              run: |
+                aws eks update-kubeconfig \
+                  --region "$AWS_REGION" \
+                  --name "$EKS_CLUSTER_NAME"
+
+            - name: Verify EKS connection
+              run: |
+                kubectl get nodes
+                kubectl get namespace "$KUBERNETES_NAMESPACE"
 
             - name: Docker Image Push summary
               env:
